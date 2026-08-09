@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=../validator/scraper.schema.json
+name: TS Mariana Cordoba
+sceneByURL:
+  - action: scrapeXPath
+    url:
+      - tsmarianacordoba.com
+    scraper: sceneScraper
+xPathScrapers:
+  sceneScraper:
+    scene:
+      Title: //h1[@class="video-title"]
+      Details: '//div[@class="video-text"]/div[contains(@style, "color: white")]'
+      Date:
+        selector: //div[contains(@class, "video-info")]//p[contains(., "Added on:")]
+        postProcess:
+          - replace:
+              - regex: \s+
+                with: " "
+          - replace:
+              - regex: "Added on:"
+                with: ""
+          - replace:
+              - regex: "^ "
+                with: ""
+          - parseDate: "Jan 2, 2006"
+      Image:
+        selector: //video/@poster
+        postProcess:
+          - replace:
+              - regex: ^
+                with: "https:"
+      Studio:
+        Name:
+          fixed: Mariana Cordoba
+      Tags:
+        Name: //div[contains(@class, "model-tags")]//a
+      Performers:
+        Name:
+          fixed: Mariana Cordoba
+# Last Updated August 9, 2026
