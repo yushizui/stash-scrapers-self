@@ -89,10 +89,9 @@ def to_scraped_scene(data: dict) -> dict | None:
     if ts := modal.get("date"):
         scene["date"] = datetime.fromtimestamp(ts).date().isoformat()
 
-    # The image is available in the `info` array as well as the player params
-    if thumb := mv_data.get("info"):
-        if isinstance(thumb, list) and len(thumb) > 2 and thumb[2]:
-            scene["image"] = thumb[2]
+    # Use the player jpg (16:9, no black bars) rather than the info thumbnail (4:3 letterboxed)
+    if thumb := data.get("player", {}).get("params", [{}])[0].get("jpg"):
+        scene["image"] = thumb
 
     return scene
 
