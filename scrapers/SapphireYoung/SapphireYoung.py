@@ -25,6 +25,7 @@ def http_get(url: str) -> str:
 
 
 def _unescape(value: str) -> str:
+    value = re.sub(r"<[^>]+>", " ", value)
     value = html.unescape(value).strip()
     value = re.sub(r"\s+", " ", value)
     return value
