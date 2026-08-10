@@ -1,5 +1,17 @@
 # yaml-language-server: $schema=../validator/scraper.schema.json
 name: Sapphire Young
+sceneByName:
+  action: script
+  script:
+    - python
+    - SapphireYoung.py
+    - scene-by-name
+sceneByQueryFragment:
+  action: script
+  script:
+    - python
+    - SapphireYoung.py
+    - scene-by-query-fragment
 sceneByURL:
   - action: scrapeXPath
     url:
