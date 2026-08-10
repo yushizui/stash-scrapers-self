@@ -1,0 +1,12 @@
+name: VK Video
+
+sceneByURL:
+  - action: script
+    script:
+      - python
+      - VKVideo.py
+      - scene-by-url
+    url:
+      - vkvideo.ru/video
+      - vk.com/video
+      - vk.ru/video
