@@ -1,10 +1,10 @@
 # yaml-language-server: $schema=../validator/scraper.schema.json
-# You will probably need to add the following environment variable to your stash config:
-#
-# GODEBUG=tlsrsakex=1
-#
-# This is a workaround for the Go TLS library not supporting RSA key exchange.
-# The sites below are currently using RSA key exchange, which is not supported by the Go TLS library.
+# FIX (2026-08-12): The tgirl-network.com TLS server uses weak DHE parameters.
+# Go's TLS library rejects the handshake ("tls: handshake failure" /
+# DH_KEY_TOO_SMALL), so this scraper deliberately uses plain HTTP instead of
+# HTTPS for both scene pages and the cover image. Do not revert to https.
+# The original official GODEBUG=tlsrsakex=1 workaround below only addresses RSA
+# key exchange, not the weak DHE params, so it does not help here.
 # source: https://github.com/stashapp/CommunityScrapers/issues/2064
 name: TGirl-Network-fix
 galleryByURL:
@@ -50,7 +50,7 @@ xPathScrapers:
               - regex: "&crop=1"
                 with: ""
               - regex: ^
-                with: https://www.tgirl-network.com/tour/
+                with: http://www.tgirl-network.com/tour/
       Code: &code
         selector: *imageSel
         postProcess: &codePostProcess
@@ -90,5 +90,6 @@ xPathScrapers:
 # Fork URL: https://github.com/stashapp/CommunityScrapers
 # Date modified: 2026-08-12
 # Reason: fork for personal use, renamed to TGirl-Network-fix.
+# Fix: use plain HTTP instead of HTTPS (server has weak DHE params, see header).
 # Licensed under the same terms: GNU Affero General Public License v3.
 # ------------------------------------------------------------------
